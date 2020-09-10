@@ -3,7 +3,7 @@ import {atom, useRecoilState} from "recoil/dist";
 
 const namesState = atom({
     key: "name",
-    default: []
+    default: [{name: "Jeff"}]
 })
 
 let Lists =  (props) => {
@@ -19,17 +19,21 @@ let Lists =  (props) => {
         {"name":  "steve 23"},
     ]
 
+    resp = [{name: "Jeff"}]
+
     const [names, setNames] = useRecoilState(namesState)
 
     useEffect(()=> {
         const getName = async () => {
-            const resp = await fetch('http://localhost:3001/test.json')
+            const resp = await fetch('http://localhost:3000/test.json')
             const body = await resp.json()
-            setNames(body)
+            console.log(names);
+            setNames([...names,...body])
+            //setNames(body)
         }
         getName()
     }, [])
-    console.log(resp)
+    console.log(names)
 
     return (
         <ul>
